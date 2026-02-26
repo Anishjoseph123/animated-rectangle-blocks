@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Block Animation</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="container">
+      <div class="block" id="block1"></div>
+      <div class="block" id="block2"></div>
+      <div class="block" id="block3"></div>
+      <div class="block" id="block4"></div>
+      <div class="block" id="block5"></div>
+    </div>
+    <div id="controls">
+      <button id="startButton">Start</button>
+      <button id="stopButton">Stop</button>
+      <button id="resetButton">Reset</button>
+    </div>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+        height: 100vh;
+        justify-content: center;
+      }
+
+      #container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        width: 90%;
+        height: 400px;
+        position: relative;
+        border: 1px solid #ccc;
+        background-color: rgb(36, 4, 4);
+      }
+
+      .block {
+        width: 50px;
+        height: 150px;
+        position: absolute;
+      }
+
+      #block1 {
+        background-color: red;
+        left: 10%;
+      }
+
+      #block2 {
+        background-color: blue;
+        left: 30%;
+      }
+
+      #block3 {
+        background-color: green;
+        left: 50%;
+      }
+
+      #block4 {
+        background-color: yellow;
+        left: 70%;
+      }
+
+      #block5 {
+        background-color: purple;
+        left: 90%;
+      }
+
+      #controls {
+        margin-top: 20px;
+      }
+
+      button {
+        margin: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 8px;
+        color: #fff;
+        box-shadow: 0 0 2px 2px rgb(38, 1, 1);
+        font-weight: bold;
+        font-style: oblique;
+      }
+      #startButton {
+        background-color: green;
+      }
+      #stopButton {
+        background-color: red;
+      }
+      #resetButton {
+        background-color: orange;
+      }
+    </style>
+    <script>
+      const blocks = document.querySelectorAll(".block");
+      const startButton = document.getElementById("startButton");
+      const stopButton = document.getElementById("stopButton");
+      const resetButton = document.getElementById("resetButton");
+
+      let animationIntervals = [];
+
+      function startAnimation() {
+        stopAnimation();
+        blocks.forEach((block, index) => {
+          let direction = 1;
+          const maxMove = 150;
+          let position = 0;
+
+          const interval = setInterval(() => {
+            position += direction * 5;
+            block.style.bottom = `${position}px`;
+
+            if (position >= maxMove || position <= 0) {
+              direction *= -1;
+            }
+          }, 50);
+          animationIntervals.push(interval);
+        });
+      }
+
+      function stopAnimation() {
+        animationIntervals.forEach(clearInterval);
+        animationIntervals = [];
+      }
+
+      function resetBlocks() {
+        stopAnimation();
+        blocks.forEach((block) => {
+          block.style.bottom = "0px";
+        });
+      }
+
+      startButton.addEventListener("click", startAnimation);
+      stopButton.addEventListener("click", stopAnimation);
+      resetButton.addEventListener("click", resetBlocks);
+    </script>
+  </body>
+</html>
